@@ -113,6 +113,7 @@ function registerMessages(actions){
 	});
 }
 function sendMessage(target, messageAction, messageData){
+	debugger;
 	target.postMessage({
 		action: messageAction ? messageAction  : '',
 		data: messageData ? messageData : {}		
