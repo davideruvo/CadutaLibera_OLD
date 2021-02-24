@@ -113,6 +113,7 @@ function registerMessages(actions){
 	});
 }
 function postMessage(target, messageAction, messageData){
+	console.log(target);
 	target.postMessage({
 		action: messageAction ? messageAction  : '',
 		data: messageData ? messageData : {}		
