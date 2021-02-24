@@ -112,8 +112,7 @@ function registerMessages(actions){
 		}
 	});
 }
-function postMessage(target, messageAction, messageData){
-	console.log(target);
+function sendMessage(target, messageAction, messageData){
 	target.postMessage({
 		action: messageAction ? messageAction  : '',
 		data: messageData ? messageData : {}		

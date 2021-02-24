@@ -15,7 +15,7 @@ $(document).ready(function(){
 		]); 
 	}
 	function destroy(){
-		postMessage(window.opener, 'closePresenter');
+		sendMessage(window.opener, 'closePresenter');
 	}
 	
 	//Gameplay
@@ -54,21 +54,21 @@ $(document).ready(function(){
 		});
 	}
 	function startGame(mode){
-		postMessage(window.opener, 'startPresenterGame', mode);
+		sendMessage(window.opener, 'startPresenterGame', mode);
 	}
 	function endGame(){
-		postMessage(window.opener, 'endGame');
+		sendMessage(window.opener, 'endGame');
 		clearQuestion();
 		initPresenter();
 	}
 	function nextQuestion(){
-		postMessage(window.opener, 'nextQuestion');
+		sendMessage(window.opener, 'nextQuestion');
 	}
 	function showSolution(){
-		postMessage(window.opener, 'showPresenterSolution', {correct: false});
+		sendMessage(window.opener, 'showPresenterSolution', {correct: false});
 	}
 	function showSolutionCorrect(){
-		postMessage(window.opener, 'showPresenterSolution', {correct: true});
+		sendMessage(window.opener, 'showPresenterSolution', {correct: true});
 	}
 	function timeExpired(){
 		openModal({content: 'Tempo scaduto'});

@@ -115,12 +115,12 @@ $(document).ready(function(){
 			},
 			expired_callback: function(){
 				if (game.windowPresenter !== null){
-					postMessage(game.windowPresenter, 'timeExpired');
+					sendMessage(game.windowPresenter, 'timeExpired');
 				}
 			}
 		});
 		if (game.windowPresenter !== null){
-			postMessage(game.windowPresenter, 'questionLoaded', q);
+			sendMessage(game.windowPresenter, 'questionLoaded', q);
 		}
 	}
 	function showSolution(){
@@ -154,7 +154,7 @@ $(document).ready(function(){
 		var scoreText = empty ? '' :  game.score.correct + (game.score.total === 0 ? '' : ' su ' + game.score.total);
 		$('.head-score').html(scoreText);
 		if (game.windowPresenter !== null){
-			postMessage(game.windowPresenter, 'showScore', {text: scoreText });
+			sendMessage(game.windowPresenter, 'showScore', {text: scoreText });
 		}
 	}
 	
