@@ -1,0 +1,205 @@
+/* JQuery Components by DR */
+/* Numeric Counter */
+.dr-numericCounter {
+	width: 100%;
+	display: block;
+}
+.dr-numericCounter .counter-btn {
+	display: inline-block;
+	width: 24px;
+	padding: 5px;
+	cursor: pointer;
+}
+.dr-numericCounter .counter-btn.disabled {
+	color: rgba(0,0,0,0.6);
+	cursor: not-allowed !important;
+}
+.dr-numericCounter .counter-num {
+	display: inline-block;
+	width: calc(100% - 48px);
+	text-align: center;
+	font-size: 80%;
+	font-weight: bold;
+}
+
+/* Timer */
+.dr-timer {
+	display: inline-block;
+	width: 210px;
+	height: 110px;
+	background-color: #555;
+	border: 5px outset #555;
+}
+.dr-timer .clock {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.dr-timer .clock::before,
+.dr-timer .clock::after {
+	content: '';
+	width: 5px;
+	height: 100%;
+	background-color: #fff;
+}
+.dr-timer .clock .face {
+	width: 100%;
+	height: 100%;
+	border: 5px inset #555;
+	background-color: #ccdddd;
+}
+.dr-timer.no-border, .dr-timer.no-border .clock .face {
+	border: none;
+}
+.dr-timer.transparent, .dr-timer.transparent .clock .face {
+	background-color: transparent;
+}
+.dr-timer .clock .digit-divider {
+	width: 4px; 
+	height: 100%;
+	float: left;
+	transform: translate(0, calc((100% - 12px) / 2));
+}
+.dr-timer .clock .digit-divider .dot {
+	width: 100%;
+	height: 4px;
+	background-color: rgba(0,0,0,1);
+}
+.dr-timer .clock .digit-divider .dot:first-child {
+	margin-bottom: 4px;
+}
+.dr-timer .clock .digit {
+	width: calc((100% - 4px) / 4); 
+	height: 100%;
+	padding: 1px;
+	float: left;
+}
+.dr-timer .clock .digit .semi-digit {
+	width: 100%;
+	height: 50%;
+	border: 4px solid rgba(0,0,0,0.2);
+}
+.dr-timer .clock .digit .semi-digit.semi-digit-top {
+	border-bottom-width: 2px;
+}
+.dr-timer .clock .digit .semi-digit.semi-digit-bottom {
+	border-top-width: 2px;
+}
+.dr-timer .clock .digit.digit-0 .semi-digit.semi-digit-top,
+.dr-timer .clock .digit.digit-2 .semi-digit,
+.dr-timer .clock .digit.digit-3 .semi-digit,
+.dr-timer .clock .digit.digit-4 .semi-digit.semi-digit-bottom,
+.dr-timer .clock .digit.digit-5 .semi-digit,
+.dr-timer .clock .digit.digit-6 .semi-digit,
+.dr-timer .clock .digit.digit-7 .semi-digit.semi-digit-top,
+.dr-timer .clock .digit.digit-8 .semi-digit,
+.dr-timer .clock .digit.digit-9 .semi-digit {
+	border-top-color: rgba(0,0,0,1);
+}
+.dr-timer .clock .digit.digit-0 .semi-digit.semi-digit-bottom,
+.dr-timer .clock .digit.digit-2 .semi-digit,
+.dr-timer .clock .digit.digit-3 .semi-digit,
+.dr-timer .clock .digit.digit-4 .semi-digit.semi-digit-top,
+.dr-timer .clock .digit.digit-5 .semi-digit,
+.dr-timer .clock .digit.digit-6 .semi-digit,
+.dr-timer .clock .digit.digit-8 .semi-digit,
+.dr-timer .clock .digit.digit-9 .semi-digit {
+	border-bottom-color: rgba(0,0,0,1);
+}
+.dr-timer .clock .digit.digit-0 .semi-digit,
+.dr-timer .clock .digit.digit-2 .semi-digit.semi-digit-bottom,
+.dr-timer .clock .digit.digit-4 .semi-digit.semi-digit-top,
+.dr-timer .clock .digit.digit-5 .semi-digit.semi-digit-top,
+.dr-timer .clock .digit.digit-6 .semi-digit,
+.dr-timer .clock .digit.digit-8 .semi-digit,
+.dr-timer .clock .digit.digit-9 .semi-digit.semi-digit-top {
+	border-left-color: rgba(0,0,0,1);
+}
+.dr-timer .clock .digit.digit-0 .semi-digit,
+.dr-timer .clock .digit.digit-1 .semi-digit,
+.dr-timer .clock .digit.digit-2 .semi-digit.semi-digit-top,
+.dr-timer .clock .digit.digit-3 .semi-digit,
+.dr-timer .clock .digit.digit-4 .semi-digit,
+.dr-timer .clock .digit.digit-5 .semi-digit.semi-digit-bottom,
+.dr-timer .clock .digit.digit-6 .semi-digit.semi-digit-bottom,
+.dr-timer .clock .digit.digit-7 .semi-digit,
+.dr-timer .clock .digit.digit-8 .semi-digit,
+.dr-timer .clock .digit.digit-9 .semi-digit {
+	border-right-color: rgba(0,0,0,1);
+}
+.dr-timer.negative .clock .digit-divider .dot {
+	background-color: rgba(255,255,255,1);
+}
+.dr-timer.negative .clock .digit .semi-digit {
+	border-color: rgba(255,255,255,0.2);
+}
+.dr-timer.negative .clock .digit.digit-0 .semi-digit.semi-digit-top,
+.dr-timer.negative .clock .digit.digit-2 .semi-digit,
+.dr-timer.negative .clock .digit.digit-3 .semi-digit,
+.dr-timer.negative .clock .digit.digit-4 .semi-digit.semi-digit-bottom,
+.dr-timer.negative .clock .digit.digit-5 .semi-digit,
+.dr-timer.negative .clock .digit.digit-6 .semi-digit,
+.dr-timer.negative .clock .digit.digit-7 .semi-digit.semi-digit-top,
+.dr-timer.negative .clock .digit.digit-8 .semi-digit,
+.dr-timer.negative .clock .digit.digit-9 .semi-digit {
+	border-top-color: rgba(255,255,255,1);
+}
+.dr-timer.negative .clock .digit.digit-0 .semi-digit.semi-digit-bottom,
+.dr-timer.negative .clock .digit.digit-2 .semi-digit,
+.dr-timer.negative .clock .digit.digit-3 .semi-digit,
+.dr-timer.negative .clock .digit.digit-4 .semi-digit.semi-digit-top,
+.dr-timer.negative .clock .digit.digit-5 .semi-digit,
+.dr-timer.negative .clock .digit.digit-6 .semi-digit,
+.dr-timer.negative .clock .digit.digit-8 .semi-digit,
+.dr-timer.negative .clock .digit.digit-9 .semi-digit {
+	border-bottom-color: rgba(255,255,255,1);
+}
+.dr-timer.negative .clock .digit.digit-0 .semi-digit,
+.dr-timer.negative .clock .digit.digit-2 .semi-digit.semi-digit-bottom,
+.dr-timer.negative .clock .digit.digit-4 .semi-digit.semi-digit-top,
+.dr-timer.negative .clock .digit.digit-5 .semi-digit.semi-digit-top,
+.dr-timer.negative .clock .digit.digit-6 .semi-digit,
+.dr-timer.negative .clock .digit.digit-8 .semi-digit,
+.dr-timer.negative .clock .digit.digit-9 .semi-digit.semi-digit-top {
+	border-left-color: rgba(255,255,255,1);
+}
+.dr-timer.negative .clock .digit.digit-0 .semi-digit,
+.dr-timer.negative .clock .digit.digit-1 .semi-digit,
+.dr-timer.negative .clock .digit.digit-2 .semi-digit.semi-digit-top,
+.dr-timer.negative .clock .digit.digit-3 .semi-digit,
+.dr-timer.negative .clock .digit.digit-4 .semi-digit,
+.dr-timer.negative .clock .digit.digit-5 .semi-digit.semi-digit-bottom,
+.dr-timer.negative .clock .digit.digit-6 .semi-digit.semi-digit-bottom,
+.dr-timer.negative .clock .digit.digit-7 .semi-digit,
+.dr-timer.negative .clock .digit.digit-8 .semi-digit,
+.dr-timer.negative .clock .digit.digit-9 .semi-digit {
+	border-right-color: rgba(255,255,255,1);
+}
+
+/* Toggle Switch */
+.dr-toggleSwitch {
+	font-size: 24px;
+	cursor: pointer;
+}
+
+/* Tooltip */
+.dr-tooltip {
+	display: inline-block;
+	position: relative;
+	left: 0px;
+	top: 0;
+	border-radius: 10px;
+	max-width: 300px;
+	padding: 10px;
+	font-size: 80%;
+	z-index: 9;
+	box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.5);
+}
+.dr-tooltip-icon {
+	background: none;
+	position: relative;
+	left: 5px;
+}
+.dr-tooltip-cursor {
+	cursor: help;
+}

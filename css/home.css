@@ -1,0 +1,10 @@
+/* Main, Head */
+.main, .head {
+	background-color: #555;	
+}
+.main .settings {
+	display: none;
+}
+.modal.settings {
+	text-align: left;
+}

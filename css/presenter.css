@@ -1,0 +1,22 @@
+/* Main, Head */
+.main, .head {
+	background-color: #999;	
+}
+
+/* Question */
+.question {
+	padding: 10px;
+	font-size: 24px;
+	min-height: 180px;
+}
+.question .word-container .word {
+	margin-right: 30px;
+}
+.question .word-container .word .letter {
+	height: 40px;
+	width: 25px;
+	margin: 2px;
+	font-size: 25px;
+	font-weight: bold;
+	line-height: 40px;
+}
