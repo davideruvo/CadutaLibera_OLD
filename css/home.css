@@ -1,5 +1,5 @@
 /* Main, Head */
-.main, .head {
+body, .main, .head {
 	background-color: #555;	
 }
 .main .settings {

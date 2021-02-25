@@ -5,9 +5,6 @@ function getData(){ return encode([
 { word:'ne%ll\'ann%o 1%914', definition:'Genesi' },
 { word:'1%914', definition:'Prova 1' },
 { word:'1%914', definition:'Prova 2' },
-{ word:'1%914', definition:'Prova 3' },
-{ word:'1%914', definition:'Prova 4' },
-{ word:'1%914', definition:'Prova 5' },
 { word: "abis%so", definition: "C'era una volta..." },
 { word: "acaia", definition: "" },
 { word:"e%tà de%ll'anno", definition:"Domanda domanda domanda" }
