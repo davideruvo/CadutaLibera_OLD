@@ -4,42 +4,8 @@ const TABLE_NAME = process.env.TABLE_NAME;
 
 exports.handler = async (event, context) => {
     try {
-        //const body = JSON.parse(event.body);
-        let result = await deleteItems(TABLE_NAME, '0');
-        const itemsToWrite = [
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' },
-            { word: 'aa%a', def: 'aaaaaaa aaaaa' }
-        ];
-        result = await writeItems(TABLE_NAME, '0', itemsToWrite);
+        let itemsToWrite = JSON.parse(event.body);
+        let result = await replaceItems(TABLE_NAME, '0', itemsToWrite);
         return {
             statusCode: 200,
             body: JSON.stringify({
@@ -51,20 +17,16 @@ exports.handler = async (event, context) => {
             statusCode: error.statusCode || 500,
             body: JSON.stringify(error),
         };
-    }
+    } 
 };
-
-async function deleteItems(tableName, userId) {
-
+async function replaceItems(tableName, userId, putItems) {
     const queryParams = {
         TableName: tableName,
         KeyConditionExpression: 'userId = :userId',
         ExpressionAttributeValues: { ':userId': userId },
     };
-
     const queryResults = await dynamoDb.query(queryParams).promise()
     if (queryResults.Items && queryResults.Items.length > 0) {
-
         const batchCalls = chunks(queryResults.Items, 25).map(async (chunk) => {
             const deleteRequests = chunk.map(item => {
                 return {
@@ -77,7 +39,6 @@ async function deleteItems(tableName, userId) {
                     }
                 }
             })
-
             const batchWriteParams = {
                 RequestItems: {
                     [tableName]: deleteRequests
@@ -85,12 +46,8 @@ async function deleteItems(tableName, userId) {
             }
             await dynamoDb.batchWrite(batchWriteParams).promise()
         })
-
         await Promise.all(batchCalls)
     }
-}
-
-async function writeItems(tableName, userId, putItems) {
     const batchCalls = chunks(putItems, 25).map(async (chunk) => {
         const putRequests = chunk.map(item => {
             return {

@@ -3,8 +3,6 @@ body, .main {
 	background-color: #555;
 }
 .main {
-	top: 0;
-	bottom: 0;
 	left: 0;
 	right: 0;
 	background-color: rgba(0,0,0,0.3);
@@ -18,4 +16,14 @@ body, .main {
 	background-color: rgba(255,255,255,0.9);
 	border-radius: 20px;
 	padding: 20px;
+}
+.main .buttons {
+	height: 20px;
+	width: 100%;
+	padding: 10px;
+	background-color: red;
+}
+.main .buttons .btn {
+	padding: 10px;
+	font-size: 20px;
 }
