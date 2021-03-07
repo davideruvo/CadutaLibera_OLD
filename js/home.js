@@ -47,7 +47,7 @@ $(document).ready(function(){
 	}
 	function initHome(){
 		setMode({
-			actions: game.windowPresenter != null ? {} :
+			actions: game.windowPresenter !== null ? {} :
 			{
 				settings: { callback: openSettings },
 				presenter: { callback: createPresenter },
@@ -167,7 +167,7 @@ $(document).ready(function(){
 			height: 600,
 			width: 800
 		});
-		if (game.windowPresenter != null){
+		if (game.windowPresenter !== null){
 			setMode(); //Home senza comandi
 		}
 	}
@@ -179,7 +179,7 @@ $(document).ready(function(){
 		if (typeof close === 'undefined'){
 			close = true;
 		}
-		if (close && game.windowPresenter != null){
+		if (close && game.windowPresenter !== null){
 			game.windowPresenter.close();
 		}
 		game.windowPresenter = null;

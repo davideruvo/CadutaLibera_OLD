@@ -73,15 +73,15 @@ function getFootDiv(options){
 	var bgUrl = 'url(./img/' 
 		+ opt.side.substr(0,1) + 'footprint'
 		+ (opt.white ? '-w' : '')
-		+ (opt.opacity == 30 ? '-03' : opt.opacity == 60 ? '-06' : '')
+		+ (opt.opacity === 30 ? '-03' : opt.opacity === 60 ? '-06' : '')
 		+ '.svg)';
 	var res = $('<div>')
-		.addClass('foot').addClass(opt.side != '' ? 'foot-' + opt.side : '')
+		.addClass('foot').addClass(opt.side !== '' ? 'foot-' + opt.side : '')
 		.css('background-image', bgUrl)
 		.css('background-size', 'contain')
 		.css('background-repeat', 'no-repeat');
-	if (opt.side == 'left') res.css('background-position', 'right');
-	if (opt.side == 'right') res.css('background-position', 'left');
+	if (opt.side === 'left') res.css('background-position', 'right');
+	if (opt.side === 'right') res.css('background-position', 'left');
 	return res;
 }
 
@@ -166,10 +166,10 @@ function openPopup(options){
 		width: null
 	}, options);
 	var specs = [];
-	if (opt.top != null){ specs.push('top=' + opt.top); }
-	if (opt.left != null){ specs.push('left=' + opt.left); }
-	if (opt.height != null){ specs.push('height=' + opt.height); }
-	if (opt.width != null){ specs.push('width=' + opt.width); }
+	if (opt.top !== null){ specs.push('top=' + opt.top); }
+	if (opt.left !== null){ specs.push('left=' + opt.left); }
+	if (opt.height !== null){ specs.push('height=' + opt.height); }
+	if (opt.width !== null){ specs.push('width=' + opt.width); }
 	return window.open(opt.url,opt.target, specs.join(','));
 }
 
@@ -266,7 +266,7 @@ function setMode(options){
 					nextCallback(ev);
 					$('.btn-solution, .btn-correct').removeClass('hidden');
 					$(this).addClass('hidden')
-					if (opt.questionFocus != null){
+					if (opt.questionFocus !== null){
 						$(opt.questionFocus).focus();
 					}
 				};
@@ -274,7 +274,7 @@ function setMode(options){
 			else if (opt.mode === constants.mode.multi) {
 				onClick = function (ev){
 					nextCallback(ev);
-					if (opt.questionFocus != null){
+					if (opt.questionFocus !== null){
 						$(opt.questionFocus).focus();
 					}
 				};
@@ -459,7 +459,7 @@ function loadWord(options){
 				return;
 			}
 			var currLetter = $(opt.selector + ' .letter-box.filling').first();
-			if (!isLetter(key) && key != currLetter.html()){ return; }
+			if (!isLetter(key) && key !== currLetter.html()){ return; }
 			currLetter.removeClass('filling');
 			var prev = currLetter.html();
 			if (prev === ''){
@@ -547,7 +547,7 @@ function getQuestions(options){
 		$.each(res, function(i,e){
 			formatQuestion(e);
 		});
-		if (n == 1){ res = res[0]; }
+		if (n === 1){ res = res[0]; }
 		return res;
 	}
 	function takeQuestion(i,n){
