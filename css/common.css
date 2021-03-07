@@ -135,7 +135,7 @@ body, html {
 	position: absolute;
 	left: 0;
 	top: 75px;
-	height: calc(100% - 75px);
+	bottom: 0;
 	width: 100%;
 	background-image: url(../img/footprint-w-03.svg);
 	background-size: 50px;
