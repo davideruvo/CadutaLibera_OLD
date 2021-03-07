@@ -1,5 +1,5 @@
 const { dynamoDb } = require("../lib/dyno-client")
-const TABLE_NAME = 'CadutaLibera';
+const TABLE_NAME = process.env.TABLE_NAME;
 
 exports.handler = async (event, context) => {
     try { 

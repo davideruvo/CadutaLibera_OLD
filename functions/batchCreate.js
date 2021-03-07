@@ -1,8 +1,8 @@
 const { nanoid } = require("nanoid");
 const { dynamoDb } = require("../lib/dyno-client")
+const TABLE_NAME = process.env.TABLE_NAME;
 
 exports.handler = async (event, context) => {
-    const TABLE_NAME = 'CadutaLibera';
     try {
         //const body = JSON.parse(event.body);
         let result = await deleteItems(TABLE_NAME, '0');
