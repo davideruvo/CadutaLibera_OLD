@@ -206,7 +206,6 @@ $(document).ready(function(){
 						saveGame();
 					}
 				});
-			counterTime.find('.counter-num');
 			var optTime = $('<div>').addClass('list-group-item')
 					.append($('<div>').addClass('col pad-5 w-75').text('Tempo per domanda')
 						.append($('<span>').tooltip({
@@ -233,7 +232,6 @@ $(document).ready(function(){
 						saveGame();
 					}
 				});
-			counterCount.find('.counter-num');
 			var optCount = $('<div>').addClass('list-group-item')
 					.append($('<div>').addClass('col pad-5 w-75').text('Domande per serie')
 						.append($('<span>').tooltip({ 
@@ -244,6 +242,12 @@ $(document).ready(function(){
 					.append($('<div>').addClass('col pad-5 w-25 right').append(counterCount));
 			$(optionsContainer).append(optCount);
 		}
+		var btnManager = $('<button>').addClass('btn btn-round').append('Accedi')
+			.on('click', function () { openPopup({ url: './Manager.html', target: '_new' }) });
+		var optManager = $('<div>').addClass('list-group-item')
+			.append($('<div>').addClass('col pad-5 w-75').text('Gestione dati'))
+			.append($('<div>').addClass('col pad-5 w-25 center').append(btnManager));
+		$(optionsContainer).append(optManager);
 	}
 	function openSettings(){
 		openModal({ id: 'settings' }); 
