@@ -18,14 +18,21 @@ var storage = {
     local: customStorage(localStorage)
 }
 
-//AJAX
+//Global init
+$(document).ready(function () {
+    createGlobalSpinner();
+});
+
+//AJAX, Global Spinner
 function ajaxCall(url, method, options) {
     var opt = $.extend(true, {
         param: {},
+        useSpinner: true,
         success_callback: null,
         error_callback: null
     }, options);
 
+    if (opt.useSpinner) { $('.global-spinner').addClass('active'); }
     $.ajax({
         type: method.toUpperCase(),
         url: url,
@@ -34,10 +41,12 @@ function ajaxCall(url, method, options) {
         contentType: "application/json;charset=utf-8"
     })
         .done(function (result) {
+            if (opt.useSpinner) { $('.global-spinner').removeClass('active'); }
             if (typeof opt.success_callback === 'function') {
                 opt.success_callback(result);
             }
         }).fail(function (request, error) {
+            if (opt.useSpinner) { $('.global-spinner').removeClass('active'); }
             if (typeof opt.error_callback === 'function') {
                 var errorObj = {
                     error: error,
@@ -46,6 +55,11 @@ function ajaxCall(url, method, options) {
                 opt.error_callback(errorObj);
             }
         });
+}
+function createGlobalSpinner() {
+    $('.global-spinner').remove();
+    $('body').append($('<div>').addClass('global-spinner')
+        .append($('<i>').addClass('bi bi-arrow-repeat')));
 }
 
 //Common
@@ -340,7 +354,7 @@ function setMode(options) {
                     content: opt.exitConfirm,
                     buttons: [
                         {
-                            text: 'Sì', cssClass: 'btn btn-round', close: true, click: function (ev) {
+                            text: 'S&igrave;', cssClass: 'btn btn-round', close: true, click: function (ev) {
                                 if (typeof exitCallback === 'function') {
                                     exitCallback(ev);
                                 }

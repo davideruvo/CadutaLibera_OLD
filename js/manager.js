@@ -8,6 +8,20 @@ $(document).ready(function () {
             .off('click').on('click', updateData);
     }
     function loadData() {
+        if ($('textarea.manager').val() === '') {
+            getQuestions();
+        }
+        else {
+            openModal({
+                content: 'Le modifiche non salvate andranno perse. Continuare?',
+                buttons: [
+                    { text: 'S&igrave;', cssClass: 'btn btn-round', close: true, click: getQuestions },
+                    { text: 'No', cssClass: 'btn btn-round', close: true },
+                ]
+            })
+        }
+    }
+    function getQuestions() {
         ajaxCall('/api/getQuestions', 'get',
             {
                 success_callback: function (result) {

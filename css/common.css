@@ -79,6 +79,34 @@ body, html {
 	margin-left: 0;
 }
 
+/* Global Spinner */
+.global-spinner {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.6);
+	z-index: 9999;
+}
+.global-spinner i {
+	position: absolute;
+	color: #fff;
+	top: 50%; 
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+.global-spinner i::before {
+	transform: scaleX(5) scaleY(5);
+}
+.global-spinner.active {
+	display: block;
+}
+.global-spinner.active i {
+	animation: spin 0.5s linear infinite;
+}
+
 /* Logo */
 .logo-container {
 	position: absolute;
@@ -362,7 +390,9 @@ body, html {
 
 /* Keyframes */
 @keyframes blinkText {
-	50% {
-		color: transparent;
-	}
+	50% { color: transparent; }
 }
+@keyframes spin {
+	0% { transform: rotate(0deg);}
+	100% { transform: rotate(360deg);}
+} 
