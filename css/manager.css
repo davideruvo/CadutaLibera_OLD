@@ -1,11 +1,7 @@
 /* Main */
-body, .main {
-	background-color: #555;
-}
 .main {
 	left: 0;
 	right: 0;
-	background-color: rgba(0,0,0,0.3);
 	padding: 20px;
 }
 .main textarea.manager {
