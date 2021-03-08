@@ -1,7 +1,4 @@
 /* Main, Head */
-body, .main, .head {
-	background-color: #555;	
-}
 .main .settings {
 	display: none;
 }

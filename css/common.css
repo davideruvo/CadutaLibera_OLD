@@ -5,10 +5,11 @@
 body, html {
 	margin: 0;
 	padding: 0;
-	min-width:100%;
-	min-height:100%;
+	min-width: 100%;
+	min-height: 100%;
 	font-family: 'Arial';
 	cursor: default;
+	background-color: #555;
 }
 
 /* General */
@@ -131,6 +132,9 @@ body, html {
 }
 
 /* Main, Head */
+.main, .head {
+	background-color: #555;
+}
 .main {
 	position: absolute;
 	left: 0;

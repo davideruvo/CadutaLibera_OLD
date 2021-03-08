@@ -1,8 +1,3 @@
-/* Main, Head */
-body, .main, .head {
-	background-color: #999;	
-}
-
 /* Question */
 .question {
 	padding: 10px;
