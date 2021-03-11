@@ -26,7 +26,7 @@ $(document).ready(function () {
 //AJAX, Global Spinner
 function ajaxCall(url, method, options) {
     var opt = $.extend(true, {
-        param: {},
+        param: null,
         useSpinner: true,
         success_callback: null,
         error_callback: null
@@ -36,7 +36,7 @@ function ajaxCall(url, method, options) {
     $.ajax({
         type: method.toUpperCase(),
         url: url,
-        data: JSON.stringify(opt.param),
+        data: opt.param === null ? null : JSON.stringify(opt.param),
         dataType: "json",
         contentType: "application/json;charset=utf-8"
     })
@@ -411,11 +411,10 @@ function loadQuestion(options) {
     }, options);
     clearQuestion();
     if (opt.question === null) return;
-    var q = decode(opt.question);
+    var q = opt.question;
     $(opt.selector + ' .definition').html(q.question);
     loadWord($.extend(true, {
-        question: q,
-        isEncoded: false
+        question: q
     }, opt.solution));
     if (opt.solution.allowTyping) {
         var infoText = '<center>Scrivi la soluzione nel tempo disponibile, digitando anche le lettere già presenti.<br/>' +
@@ -463,7 +462,6 @@ function loadQuestion(options) {
                 }
                 loadWord({
                     question: q,
-                    isEncoded: false,
                     allowTyping: false
                 });
             }
@@ -474,7 +472,6 @@ function loadWord(options) {
     var opt = $.extend(true, {
         selector: '.question',
         question: null,
-        isEncoded: true,
         allowTyping: true,
         showSolution: false,
         useAlternateForSolution: false,
@@ -482,7 +479,7 @@ function loadWord(options) {
     }, options);
     if (opt.question === null) return;
     stopTimer();
-    var q = opt.isEncoded ? decode(opt.question) : opt.question;
+    var q = opt.question;
     $(opt.selector + ' .word-container').html('');
     var word = $('<div>').addClass('word');
     $.each(q.letters, function (i, e) {
@@ -589,7 +586,7 @@ function getQuestions(options) {
             if (typeof n === 'undefined') { n = 1; }
             if (_data.length < n) return null;
             var i = iQuestion;
-            var q = encode(pickQuestion(0, n));
+            var q = pickQuestion(0, n);
             return { q: q, i: i, n: n, tot: _data.length };
         }
     };

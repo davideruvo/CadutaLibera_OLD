@@ -58,6 +58,7 @@ $(document).ready(function () {
                 param: param,
                 success_callback: function (result) {
                     openModal({ content: 'Inserimento completato', type: constants.messageType.info });
+                    $('.main textarea').val('');
                     disabledAppend(true);
                 },
                 error_callback: function (error) {
