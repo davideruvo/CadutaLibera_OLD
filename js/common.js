@@ -412,7 +412,7 @@ function loadQuestion(options) {
     clearQuestion();
     if (opt.question === null) return;
     var q = decode(opt.question);
-    $(opt.selector + ' .definition').html(q.definition);
+    $(opt.selector + ' .definition').html(q.question);
     loadWord($.extend(true, {
         question: q,
         isEncoded: false
@@ -574,9 +574,12 @@ function stopTimer() {
 //Questions
 function getQuestions(options) {
     var _data = [];
-    if (typeof getData === 'function') {
-        _data = decode(getData());
-    }
+    ajaxCall('/api/ReadAll', 'get',
+        {
+            success_callback: function (result) {
+                _data = result.Items;
+            }
+        });
     var _opt = $.extend(true, {
         loop: true,
         useSession: true
