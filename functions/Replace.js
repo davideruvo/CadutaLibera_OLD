@@ -1,10 +1,13 @@
 const { nanoid } = require("nanoid");
 const { dynamoDb } = require("../lib/dyno-client")
 const TABLE_NAME = process.env.TABLE_NAME;
+const MAX_ROWS = 1000;
 
+let autoId = 0;
 exports.handler = async (event, context) => {
     try {
         let itemsToWrite = JSON.parse(event.body);
+        itemsToWrite = itemsToWrite.filter(function (x) { return x.word !== '' && x.question !== ''; }).slice(0,MAX_ROWS);
         let result = await replaceItems(TABLE_NAME, '0', itemsToWrite);
         return {
             statusCode: 200,
@@ -13,17 +16,17 @@ exports.handler = async (event, context) => {
             }),
         };
     } catch (error) {
-        return {
+          return {
             statusCode: error.statusCode || 500,
             body: JSON.stringify(error),
         };
     } 
 };
-async function replaceItems(tableName, userId, putItems) {
+async function replaceItems(tableName, userid, putItems) {
     const queryParams = {
         TableName: tableName,
-        KeyConditionExpression: 'userId = :userId',
-        ExpressionAttributeValues: { ':userId': userId },
+        KeyConditionExpression: 'userid = :userid',
+        ExpressionAttributeValues: { ':userid': userid },
     };
     const queryResults = await dynamoDb.query(queryParams).promise()
     if (queryResults.Items && queryResults.Items.length > 0) {
@@ -32,8 +35,8 @@ async function replaceItems(tableName, userId, putItems) {
                 return {
                     DeleteRequest: {
                         Key: {
-                            'userId': item.userId,
-                            'uid': item.uid,
+                            'userid': item.userid,
+                            'qid': item.qid,
 
                         }
                     }
@@ -53,12 +56,10 @@ async function replaceItems(tableName, userId, putItems) {
             return {
                 PutRequest: {
                     Item: {
-                        userId: userId,
-                        uid: nanoid(10),
+                        userid: userid,
+                        qid: getQuestionId(),
                         word: item.word,
-                        def: item.def,
-                        createDate: new Date().toISOString(),
-                        useDate: new Date().toISOString()
+                        question: item.question
                     }
                 }
             }
@@ -68,7 +69,7 @@ async function replaceItems(tableName, userId, putItems) {
                 [tableName]: putRequests
             }
         }
-        await dynamoDb.batchWrite(batchWriteParams).promise()
+        var res = await dynamoDb.batchWrite(batchWriteParams).promise();
     })
     await Promise.all(batchCalls)
 }
@@ -79,4 +80,7 @@ function chunks(inputArray, perChunk) {
         all[ch] = [].concat((all[ch] || []), one);
         return all
     }, [])
+}
+function getQuestionId() {
+    return new Date().toISOString() + (autoId++).toString().padStart(3,'0');
 }

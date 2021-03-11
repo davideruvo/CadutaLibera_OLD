@@ -7,8 +7,8 @@ exports.handler = async (event, context) => {
         ExpressionAttributeValues: {
             ':u': '0'
         },
-        KeyConditionExpression: 'userId = :u',
-        ProjectionExpression: 'userId, uid, word, def, createDate, useDate',
+        KeyConditionExpression: 'userid = :u',
+        ProjectionExpression: 'userid, qid, word, question',
         TableName: TABLE_NAME
     };
     let result = await dynamoDb.query(params).promise();

@@ -162,10 +162,7 @@ $(document).ready(function(){
 	function createPresenter(){
 		game.windowPresenter = openPopup({
 			url: './Presenter.html',
-			target: 'cadutalibera_presenter',
-			left: 400,
-			height: 600,
-			width: 800
+			target: 'cadutalibera_presenter'
 		});
 		if (game.windowPresenter !== null){
 			setMode(); //Home senza comandi
@@ -208,10 +205,10 @@ $(document).ready(function(){
 				});
 			var optTime = $('<div>').addClass('list-group-item')
 					.append($('<div>').addClass('col pad-5 w-75').text('Tempo per domanda')
-						.append($('<span>').tooltip({
+						.append($('<span>').addClass('info').tooltip({
 							type: constants.messageType.info,
 							icon: 'bi bi-question-circle-fill',
-							content: 'Numero di secondi a disposizione per ogni domanda (impostando il valore 0 il tempo è illimitato)' 
+							content: 'Numero di secondi a disposizione per ogni domanda (0 = tempo illimitato)' 
 						})))
 					.append($('<div>').addClass('col pad-5 w-25 right').append(counterTime));
 			$(optionsContainer).append(optTime);
@@ -242,12 +239,15 @@ $(document).ready(function(){
 					.append($('<div>').addClass('col pad-5 w-25 right').append(counterCount));
 			$(optionsContainer).append(optCount);
 		}
-		var btnManager = $('<button>').addClass('btn btn-round').append('Accedi')
-			.on('click', function () { openPopup({ url: './Manager.html', target: '_new' }) });
-		var optManager = $('<div>').addClass('list-group-item')
-			.append($('<div>').addClass('col pad-5 w-75').text('Gestione dati'))
-			.append($('<div>').addClass('col pad-5 w-25 center').append(btnManager));
-		$(optionsContainer).append(optManager);
+		var btnDataManager = $('<button>').addClass('btn btn-round').append('Gestione dati')
+			.on('click', function () {
+				openPopup({ url: './DataManager.html', target: '_new' });
+				$.modal.close();
+			});
+		var optDataManager = $('<div>').addClass('list-group-item')
+			.append($('<div>').addClass('col pad-5 w-75'))
+			.append($('<div>').addClass('col pad-5 w-25 center').append(btnDataManager));
+		$(optionsContainer).append(optDataManager);
 	}
 	function openSettings(){
 		openModal({ id: 'settings' }); 

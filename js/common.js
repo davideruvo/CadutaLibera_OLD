@@ -45,12 +45,15 @@ function ajaxCall(url, method, options) {
             if (typeof opt.success_callback === 'function') {
                 opt.success_callback(result);
             }
-        }).fail(function (request, error) {
+        }).fail(function (request, err) {
             if (opt.useSpinner) { $('.global-spinner').removeClass('active'); }
             if (typeof opt.error_callback === 'function') {
                 var errorObj = {
-                    error: error,
-                    errorDes: request.statusText,
+                    error: err,
+                    isTimeout: request.responseText.startsWith('Timeout'),
+                    status: request.status,
+                    statusText: request.statusText,
+                    message: request.responseText
                 };
                 opt.error_callback(errorObj);
             }
@@ -168,6 +171,7 @@ function openModal(options) {
         id: '',
         type: '',
         content: '',
+        maxWidth: 0,
         buttons: []
     }, options);
     if (opt.id === '') {
@@ -196,6 +200,9 @@ function openModal(options) {
         });
     }
     $('#' + opt.id).addClass(opt.type);
+    if (opt.maxWidth > 0) {
+        $('#' + opt.id).css('max-width', opt.maxWidth + 'px');
+    }
     $('#' + opt.id).modal({ showClose: false });
     return opt.id;
 }
@@ -354,13 +361,13 @@ function setMode(options) {
                     content: opt.exitConfirm,
                     buttons: [
                         {
-                            text: 'S&igrave;', cssClass: 'btn btn-round', close: true, click: function (ev) {
+                            text: 'Ok', cssClass: 'btn btn-round', close: true, click: function (ev) {
                                 if (typeof exitCallback === 'function') {
                                     exitCallback(ev);
                                 }
                             }
                         },
-                        { text: 'No', cssClass: 'btn btn-round', close: true },
+                        { text: 'Annulla', cssClass: 'btn btn-round', close: true },
                     ]
                 });
             };

@@ -31,6 +31,7 @@ body, html {
 .w-25 { width: 25%; }
 .w-20 { width: 20%; }
 .w-10 { width: 10%; }
+.bold { font-weight: bold; }
 .info { background-color: #cce5ff; color: #004085; border: 0 solid #004085; }
 .warning { background-color: #fff3cd; color: #856404; border: 0 solid #856404; }
 .error { background-color: #f8d7da; color: #721c24; border: 0 solid #721c24; }
@@ -47,6 +48,9 @@ body, html {
 	outline: none;
 	padding: 5px;
 	cursor: pointer;
+}
+.btn:disabled {
+	background-color: transparent;
 }
 .page.single .btn {
 	background-color: rgba(0,0,120,0.8);
