@@ -22,7 +22,7 @@ async function deleteItems(userid) {
         KeyConditionExpression: 'userid = :userid',
         ExpressionAttributeValues: { ':userid': userid },
     };
-    const queryResults = await dynamoDb.query(queryParams).promise()
+    const queryResults = await dynamoDb.query(queryParams).promise();
     if (queryResults.Items && queryResults.Items.length > 0) {
         const batchCalls = dbUtils.ChunkData(queryResults.Items, 25).map(async (chunk) => {
             const deleteRequests = chunk.map(item => {
@@ -42,6 +42,6 @@ async function deleteItems(userid) {
             }
             await dynamoDb.batchWrite(batchWriteParams).promise()
         })
-        await Promise.all(batchCalls)
+        return await Promise.all(batchCalls)
     }
 }

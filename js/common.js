@@ -145,9 +145,6 @@ function createLogo(options) {
 
 //Messages
 function registerMessages(actions) {
-    //actions = array of actions
-    //e.g.		[{action: 'myAction', callback: myFunction},
-    //			[{action: 'myAction2', callback: myFunction2}]
     $(window).on('message', function (ev) {
         var msgData = ev.originalEvent.data;
         var action = $.grep(actions, function (x) { return x.action === msgData.action; });
@@ -412,6 +409,7 @@ function loadQuestion(options) {
     clearQuestion();
     if (opt.question === null) return;
     var q = opt.question;
+    ajaxCall('/api/Update', 'post', { param: { qid: q.qid }, useSpinner: false });
     $(opt.selector + ' .definition').html(q.question);
     loadWord($.extend(true, {
         question: q
