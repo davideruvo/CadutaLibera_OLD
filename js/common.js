@@ -570,27 +570,37 @@ function stopTimer() {
 
 //Questions
 function getQuestions(options) {
+    var _opt = $.extend(true, {
+        loop: true,
+        callback: null
+    }, options);
     var _data = [];
+    var data = [];
+        var iQuestion = 1;
+    var dQuestions = $.Deferred();
     ajaxCall('/api/ReadAll', 'get',
         {
             success_callback: function (result) {
-                _data = result.Items;
+                dQuestions.resolve(result.Items);
             }
         });
-    var _opt = $.extend(true, {
-        loop: true
-    }, options);
-    var self = {
-        pick: function (n) {
-            if (typeof n === 'undefined') { n = 1; }
-            if (_data.length < n) return null;
-            var i = iQuestion;
-            var q = pickQuestion(0, n);
-            return { q: q, i: i, n: n, tot: _data.length };
+    $.when(dQuestions).done(function (res_questions) {
+        _data = res_questions;
+        var self = {
+            pick: function (n) {
+                if (typeof n === 'undefined') { n = 1; }
+                if (_data.length < n) return null;
+                var i = iQuestion;
+                var q = pickQuestion(0, n);
+                return { q: q, i: i, n: n, tot: _data.length };
+            },
+            count: _data.length
+        };
+        setData();
+        if (typeof _opt.callback === 'function') {
+            _opt.callback(self);
         }
-    };
-    var iQuestion = 1;
-    var data = [];
+    });
     function pickQuestion(i, n) {
         setData(n);
         if (data.length < n) return null;
@@ -627,8 +637,6 @@ function getQuestions(options) {
             data = _data;
         }
     }
-    setData();
-    return self;
 }
 
 //Storage
