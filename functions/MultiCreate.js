@@ -4,9 +4,8 @@ let autoId = 0;
 exports.handler = async (event, context) => {
     try {
         let items = JSON.parse(event.body);
-        items = items.filter(function (x) { return x.word !== '' && x.question !== ''; });//.slice(0, dbUtils.MaxBatchRows);
+        items = items.filter(function (x) { return x.word !== '' && x.question !== ''; }).slice(0, dbUtils.MaxBatchRows);
         let result = await appendItems('0', items);
-        console.log(result);
         return {
             statusCode: 200,
             body: JSON.stringify({
