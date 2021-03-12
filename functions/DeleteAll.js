@@ -40,8 +40,8 @@ async function deleteItems(userid) {
                     [dbUtils.TableName]: deleteRequests
                 }
             }
-            await dynamoDb.batchWrite(batchWriteParams).promise()
-        })
+            return await dynamoDb.batchWrite(batchWriteParams).promise()
+        });
         return await Promise.all(batchCalls)
     }
 }

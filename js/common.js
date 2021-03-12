@@ -574,7 +574,7 @@ function getQuestions(options) {
     }, options);
     var _data = [];
     var data = [];
-        var iQuestion = 1;
+    var iQuestion = 1;
     var dQuestions = $.Deferred();
     ajaxCall('/api/ReadAll', 'get',
         {
