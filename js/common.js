@@ -578,8 +578,7 @@ function getQuestions(options) {
             }
         });
     var _opt = $.extend(true, {
-        loop: true,
-        useSession: true
+        loop: true
     }, options);
     var self = {
         pick: function (n) {
@@ -592,7 +591,6 @@ function getQuestions(options) {
     };
     var iQuestion = 1;
     var data = [];
-    var sessionKey = 'questions';
     function pickQuestion(i, n) {
         setData(n);
         if (data.length < n) return null;
@@ -609,9 +607,6 @@ function getQuestions(options) {
         if (iQuestion > _data.length) {
             iQuestion = 1;
         }
-        if (_opt.useSession) {
-            storage.session.set(sessionKey, { data: data, iQuestion: iQuestion });
-        }
         return res;
     }
     function formatQuestion(q) {
@@ -625,25 +620,11 @@ function getQuestions(options) {
         return q;
     }
     function setData(min) {
-        if (_opt.useSession) {
-            if (storage.session.exists(sessionKey)) {
-                data = storage.session.get(sessionKey).data;
-                iQuestion = storage.session.get(sessionKey).iQuestion;
-                if (_opt.loop && typeof min !== 'undefined' && data.length < min) {
-                    data = data.concat(_data);
-                }
-            }
-            else {
-                storage.session.set(sessionKey, { data: _data, iQuestion: iQuestion });
-            }
+        if (_opt.loop) {
+            data = data.concat(_data);
         }
         else {
-            if (_opt.loop) {
-                data = data.concat(_data);
-            }
-            else {
-                data = _data;
-            }
+            data = _data;
         }
     }
     setData();

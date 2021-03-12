@@ -44,5 +44,5 @@ async function appendItems(userid, items) {
     await Promise.all(batchCalls)
 }
 function getQuestionId() {
-    return new Date().toISOString() + (autoId++).toString().padStart(3, '0');
+    return dbUtils.DateString() + (autoId++).toString().padStart(3, '0');
 }
