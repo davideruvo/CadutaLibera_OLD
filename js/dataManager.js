@@ -7,7 +7,7 @@ $(document).ready(function () {
                 content: 'Questa funzionalit&agrave; permette di agire sulle domande salvate.<br/>' +
                     'Il formato utilizzato &egrave; <span style="font-style:italic;font-family:monospace">risposta</span>|<span style="font-style:italic;font-family:monospace">domanda</span>.<br/>' +
                     'Ad ogni riga corrisponde una domanda diversa e si possono inserire fino a 1000 righe alla volta.<br/>' +
-                    'Le lettere visibili della risposta saranno quelle precedute dal carattere %.<br/>' + 
+                    'Le lettere visibili della risposta saranno quelle precedute dal carattere %.<br/>' +
                     '<div class="warning pad-5 vspace-5"><span class="bold">Attenzione:</span> Tutte le azioni sono irreversibili, quindi &egrave; necessario conservare una copia dei dati.</div>',
                 maxWidth: 800
             });
@@ -21,6 +21,7 @@ $(document).ready(function () {
         $('.main textarea').off('input').on('input', function (ev) { disabledAppend($(ev.target).val().length === 0); });
     }
     function downloadData() {
+        if (!checkUser()) { return; }
         if ($('.main textarea').val() === '') {
             readQuestions();
         }
@@ -37,6 +38,7 @@ $(document).ready(function () {
     function readQuestions() {
         ajaxCall('/api/ReadAll', 'get',
             {
+                param: { userid: getUser() },
                 success_callback: function (result) {
                     var textData = '';
                     $.each(result.Items, function (i, e) {
@@ -48,10 +50,14 @@ $(document).ready(function () {
             });
     }
     function appendData() {
-        var param = [];
+        if (!checkUser()) { return; }
+        var param = {
+            userid: getUser(),
+            items: []
+        };
         $.each($('.main textarea').val().split('\n'), function (i, e) {
             var l = e.split('|');
-            param.push({ word: l[0], question: l[1] });
+            param.items.push({ word: l[0], question: l[1] });
         });
         ajaxCall('/api/MultiCreate', 'post',
             {
@@ -75,6 +81,7 @@ $(document).ready(function () {
         $('.btn-append').prop('disabled', value);
     }
     function deleteData() {
+        if (!checkUser()) { return; }
         openModal({
             content: 'Tutti i dati saranno eliminati. Continuare?',
             buttons: [
@@ -86,6 +93,7 @@ $(document).ready(function () {
     function deleteQuestions() {
         ajaxCall('/api/DeleteAll', 'post',
             {
+                param: { userid: getUser() },
                 success_callback: function (result) {
                     openModal({ content: 'Operazione completata', type: constants.messageType.info });
                     $('.main textarea').val('');
@@ -100,5 +108,18 @@ $(document).ready(function () {
                     }
                 }
             });
+    }
+    function checkUser() {
+        var res = getUser().length > 0;
+        if (!res) {
+            openModal({
+                type: constants.messageType.warning,
+                content: 'Codice utente obbligatorio'
+            });
+        }
+        return res;
+    }
+    function getUser() {
+        return $('.txt-user').val().trim();
     }
 });

@@ -31,12 +31,12 @@ function ajaxCall(url, method, options) {
         success_callback: null,
         error_callback: null
     }, options);
-
+    method = method.toUpperCase();
     if (opt.useSpinner) { $('.global-spinner').addClass('active'); }
     $.ajax({
-        type: method.toUpperCase(),
+        type: method,
         url: url,
-        data: opt.param === null ? null : JSON.stringify(opt.param),
+        data: opt.param === null ? null : (method === 'GET' ? opt.param : JSON.stringify(opt.param)),
         dataType: "json",
         contentType: "application/json;charset=utf-8"
     })
