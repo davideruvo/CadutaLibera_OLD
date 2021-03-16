@@ -75,6 +75,7 @@ $(document).ready(function(){
 	}
 	function questionLoaded(data){
 		loadQuestion({
+			ignoreUpdate: true,
 			question: data.q,
 			solution: { allowTyping: false, showSolution: true, useAlternateForSolution: true }
 		});

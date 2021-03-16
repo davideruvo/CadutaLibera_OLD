@@ -34,17 +34,16 @@ $(document).ready(function () {
         };
     }
     function initQuestions(callback) {
-        getQuestions({
-            callback: function (q) {
-                game.questions = q;
+        game.questions = getQuestions({
+            callback: function (count) {
+                if (count === 0) {
+                    openModal({
+                        type: constants.messageType.warning,
+                        content: 'Nessuna domanda disponibile'
+                    });
+                }
                 if (typeof callback === 'function') {
-                    if (game.questions.count === 0) {
-                        openModal({
-                            type: constants.messageType.warning,
-                            content: 'Nessuna domanda disponibile'
-                        });
-                    }
-                    callback(game.questions.count > 0);
+                    callback(count);
                 }
             }
         });
@@ -62,7 +61,7 @@ $(document).ready(function () {
     }
     function initSingle() {
         initQuestions(function (res) {
-            if (!res) { return; }
+            if (res === 0) { return; }
             setMode({
                 mode: constants.mode.single,
                 actions: {
@@ -80,7 +79,7 @@ $(document).ready(function () {
     }
     function initMulti() {
         initQuestions(function (res) {
-            if (!res) { return; }
+            if (res === 0) { return; }
             setMode({
                 mode: constants.mode.multi,
                 actions: {
@@ -98,7 +97,7 @@ $(document).ready(function () {
     }
     function startPresenterGame(mode) {
         initQuestions(function (res) {
-            if (!res) {
+            if (res === 0) {
                 destroyPresenter(true);
                 return;
             }
@@ -116,28 +115,29 @@ $(document).ready(function () {
         initHome();
     }
     function nextQuestion() {
-        var q = game.questions.pick();
-        game.currentQuestion = q.q;
-        loadQuestion({
-            question: game.currentQuestion,
-            time: game.settings.time,
-            solution: {
-                allowTyping: game.windowPresenter === null,
-                answer_callback: game.windowPresenter !== null ? null : function (result) {
-                    if (result) {
-                        updateScore(true);
+        game.questions.pick(function (q) {
+            game.currentQuestion = q.q;
+            loadQuestion({
+                question: game.currentQuestion,
+                time: game.settings.time,
+                solution: {
+                    allowTyping: game.windowPresenter === null,
+                    answer_callback: game.windowPresenter !== null ? null : function (result) {
+                        if (result) {
+                            updateScore(true);
+                        }
+                    }
+                },
+                expired_callback: function () {
+                    if (game.windowPresenter !== null) {
+                        sendMessage(game.windowPresenter, 'timeExpired');
                     }
                 }
-            },
-            expired_callback: function () {
-                if (game.windowPresenter !== null) {
-                    sendMessage(game.windowPresenter, 'timeExpired');
-                }
+            });
+            if (game.windowPresenter !== null) {
+                sendMessage(game.windowPresenter, 'questionLoaded', q);
             }
         });
-        if (game.windowPresenter !== null) {
-            sendMessage(game.windowPresenter, 'questionLoaded', q);
-        }
     }
     function showSolution() {
         loadWord({

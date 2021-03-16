@@ -22,19 +22,19 @@ $(document).ready(function () {
     }
     function downloadData() {
         if ($('.main textarea').val() === '') {
-            getQuestions();
+            readQuestions();
         }
         else {
             openModal({
                 content: 'Le modifiche non salvate andranno perse. Continuare?',
                 buttons: [
-                    { text: 'Ok', cssClass: 'btn btn-round', close: true, click: getQuestions },
+                    { text: 'Ok', cssClass: 'btn btn-round', close: true, click: readQuestions },
                     { text: 'Annulla', cssClass: 'btn btn-round', close: true },
                 ]
             });
         }
     }
-    function getQuestions() {
+    function readQuestions() {
         ajaxCall('/api/ReadAll', 'get',
             {
                 success_callback: function (result) {

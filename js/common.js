@@ -398,6 +398,7 @@ function loadQuestion(options) {
         selector: '.question',
         question: null,
         time: 0,
+        ignoreUpdate: false,
         solution: {
             allowTyping: true,
             showSolution: false,
@@ -409,7 +410,9 @@ function loadQuestion(options) {
     clearQuestion();
     if (opt.question === null) return;
     var q = opt.question;
-    ajaxCall('/api/Update', 'post', { param: { qid: q.qid }, useSpinner: false });
+    if (!opt.ignoreUpdate) { 
+        ajaxCall('/api/Update', 'post', { param: { qid: q.qid }, useSpinner: false });
+    }
     $(opt.selector + ' .definition').html(q.question);
     loadWord($.extend(true, {
         question: q
@@ -569,50 +572,50 @@ function stopTimer() {
 //Questions
 function getQuestions(options) {
     var _opt = $.extend(true, {
-        loop: true,
         callback: null
     }, options);
     var _data = [];
-    var data = [];
+    var _count = 0;
     var iQuestion = 1;
-    var dQuestions = $.Deferred();
-    ajaxCall('/api/ReadAll', 'get',
-        {
+
+    loadData(_opt.callback);
+    function loadData(callback) {
+        ajaxCall('/api/ReadAll', 'get', {
+            useSpinner: false,
             success_callback: function (result) {
-                dQuestions.resolve(result.Items);
+                _data = _data.concat(result.Items);
+                _count = _data.length;
+                if (typeof callback === 'function') {
+                    callback(result.Count);
+                }
             }
         });
-    $.when(dQuestions).done(function (res_questions) {
-        _data = res_questions;
-        var self = {
-            pick: function (n) {
-                if (typeof n === 'undefined') { n = 1; }
-                if (_data.length < n) return null;
-                var i = iQuestion;
-                var q = pickQuestion(0, n);
-                return { q: q, i: i, n: n, tot: _data.length };
-            },
-            count: _data.length
-        };
-        setData();
-        if (typeof _opt.callback === 'function') {
-            _opt.callback(self);
+    }
+    function pickQuestion(i, n, callback) {
+        var dData = $.Deferred();
+        if (_data.length < n) {
+            loadData(function () {
+                dData.resolve(_data);
+            });
         }
-    });
-    function pickQuestion(i, n) {
-        setData(n);
-        if (data.length < n) return null;
-        var res = takeQuestion(i, n);
-        $.each(res, function (i, e) {
-            formatQuestion(e);
+        else {
+            dData.resolve(_data);
+        }
+        $.when(dData).done(function (data) {
+            var res = takeQuestion(i, n);
+            $.each(res, function (i, e) {
+                formatQuestion(e);
+            });
+            if (n === 1) { res = res[0]; }
+            if (typeof callback === 'function') {
+                callback(res);
+            }
         });
-        if (n === 1) { res = res[0]; }
-        return res;
     }
     function takeQuestion(i, n) {
-        var res = data.splice(i, n);
+        var res = _data.splice(i, n);
         iQuestion = iQuestion + n;
-        if (iQuestion > _data.length) {
+        if (iQuestion > _count) {
             iQuestion = 1;
         }
         return res;
@@ -627,14 +630,17 @@ function getQuestions(options) {
         }
         return q;
     }
-    function setData(min) {
-        if (_opt.loop) {
-            data = data.concat(_data);
+    return {
+        pick: function (callback) {
+            var n = 1;
+            var i = iQuestion;
+            pickQuestion(0, n, function (q) {
+                if (typeof callback === 'function') {
+                    callback({ q: q, i: i, n: n, tot: _count });
+                }
+            });
         }
-        else {
-            data = _data;
-        }
-    }
+    };
 }
 
 //Storage
