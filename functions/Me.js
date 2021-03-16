@@ -1,4 +1,4 @@
-const { requireAuth } = require('../../lib/auth');
+const { requireAuth } = require('../lib/auth');
 
 exports.handler = requireAuth(async (event, context) => {
     try {
