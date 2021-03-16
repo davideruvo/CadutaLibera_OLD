@@ -1,5 +1,4 @@
-const { dynamoDb } = require("../lib/dyno-client")
-const TABLE_NAME = process.env.TABLE_NAME;
+const { dynamoDb, dbUtils } = require("../lib/dyno-client")
 
 exports.handler = async (event, context) => {
     try { 
@@ -9,7 +8,7 @@ exports.handler = async (event, context) => {
         },
         KeyConditionExpression: 'userid = :u',
         ProjectionExpression: 'userid, qid, word, question',
-        TableName: TABLE_NAME
+        TableName: dbUtils.TableName
     };
     let result = await dynamoDb.query(params).promise();
     return {
