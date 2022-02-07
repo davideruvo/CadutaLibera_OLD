@@ -4,6 +4,12 @@ $(document).ready(function () {
 
     //Init
     function init() {
+		ajaxCall('/api/HelloWorld', 'get', {
+            useSpinner: false,
+            success_callback: function (result) {
+                console.log(result)
+            }
+        });
         initGame();
         destroyPresenter();
         createLogo();
